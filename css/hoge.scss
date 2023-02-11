@@ -1,0 +1,1242 @@
+@charset"UTF-8";
+
+$sp:800px;
+@mixin sp{
+  @media(max-width:($sp)){
+    @content;
+  }
+}
+$gray:rgb(70,70,70);
+$white:rgb(250,250,250);
+$pink:rgb(250,230,210);
+
+//-------------------
+//  共通
+//-------------------
+body{
+  margin: 0;
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-size: 100%;
+}
+h2{
+  text-align: center;
+  position: relative;
+  margin-bottom: 50px;
+  &::after{
+    content:'';
+    position: absolute;
+    bottom:-20px;
+    left: 50%;
+    transform:translateX(-50%);
+    transition: all 1s;
+    width: 0;
+    height: 1px;
+    background: $gray;
+  }
+}
+h2.appear{
+  &::after{
+    width: 60%;
+    @include sp{
+      width: 80%;
+    }
+  }
+}
+h3{
+  margin: 0;
+}
+img{
+  width: 100%;
+  vertical-align: bottom;
+}
+p{
+  margin: 0;
+  color: $gray;
+}
+a{
+  text-decoration: none;
+}
+ul{
+  margin: 0;
+  padding: 0;
+}
+li{
+  list-style: none;
+  list-style-position: inside;
+}
+dd{
+  margin: 0;
+}
+.wrapper{
+  max-width: 1000px;
+  padding: 0 40px;
+  margin: 0 auto;
+  // outline: 2px solid red;
+  @include sp{
+    padding: 0 20px;
+  }
+}
+.large{
+  font-size: 2rem;
+}
+.medium{
+  font-size: 1.25rem;
+}
+.small{
+  font-size: .875rem;
+}
+#index{
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+//--------------------
+//  スクロールフェード
+//--------------------
+// 下から上へ
+.animate{
+  opacity: 0;
+  transform:translateY(200px);
+  transition:opacity 1s,transform 1s
+}
+.animate.delay-one{
+  transition-delay:0.25s;
+}
+.animate.delay-two{
+  transition-delay:0.5s;
+}
+//左から右へ
+.animate.left{
+  transform:translateX(-150px);
+  opacity: 0;
+  transition:opacity 1s,transform 1s
+}
+// 右から左へ
+.animate.right{
+  transform:translateX(150px);
+  opacity: 0;
+  transition:opacity 1s,transform 1s
+}
+.animate.appear{
+  opacity: 1;
+  transform:none;
+}
+
+// ---------------------
+//サイドバー
+//-----------------------
+.sidebar{
+  max-width: 500px;
+  margin: 60px auto 40px;
+  padding: 10px 40px;
+  box-shadow: 2px 2px 4px $gray;
+  @include sp{
+    width: calc(100% - 50px);
+    padding: 10px 15px;
+  }
+  h2{
+    text-align: center;
+  }
+  ul{
+    margin-bottom: 30px;
+    // outline: 2px solid green;
+    li{
+      text-align: center;
+      padding-left: 40px;
+      line-height: 40px;  
+      border-bottom: 1px dotted $gray; 
+      @include sp{
+        padding-left: 10px;
+      }
+      &:hover{
+        background: $pink;
+        transition-duration: .5s;
+      }
+      a{
+        font-size: 1.25rem;
+        color: $gray;
+        @include sp{
+          font-size: 1rem;
+        }
+      }
+    }
+    li:last-of-type{
+      margin-bottom: 40px;
+    }
+  }
+}
+
+//------------------
+//  ヘッダー
+//------------------
+#header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index:30;
+  width: 100%;
+  background: $white;
+  transition:transform .5s;
+  .header-top{
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    .logo{
+      display: flex;
+      img{
+        width: 60px;
+        height: 60px;
+      }
+      p{
+        padding-left: 20px;
+        line-height: 60px;
+        font-size: 1.5rem;
+      }
+    }
+    #hamburger{
+      align-self: center;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      position: relative;
+      display: none;
+      @include sp{
+        display: block;
+      }
+      span{
+        position: absolute;
+        left: 0;
+        width: 30px;
+        height: 2px;
+        background: $gray;
+        transition:all .5s;
+      }
+      span:first-of-type{
+        top: 0;
+      }
+      span:nth-of-type(2){
+        top: 9px;
+      }
+      span:last-of-type{
+        bottom: 0;
+      }
+    }
+    #hamburger.show{
+      z-index: 30;
+      span{
+        transition:all .5s;
+        background: $white;
+      }
+      span:first-of-type{
+        transform:translateY(9px) rotate(135deg);
+      }
+      span:nth-of-type(2){
+        opacity: 0;
+      }
+      span:last-of-type{
+        transform:translateY(-9px) rotate(-135deg);
+      }
+    }
+  }
+  // グローバルナビゲーション
+  nav{
+    height: 40px;
+    @include sp{
+      display: none;
+    }
+    ul{
+      display: flex;
+      justify-content: space-between;
+      li{
+        &:hover{
+          background: $white;
+          transition: .5s;
+        }
+        a{
+          line-height: 40px;
+          color:$gray;
+          &:hover{
+            color:red;
+            transition:.5s;
+          }
+        }
+      }
+    }
+  }
+  .hamburger-menu{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    background: rgba(0,0,0,.7);
+    z-index:20;
+    opacity: 0;
+    pointer-events:none;
+    @include sp{
+      display: block;
+    }
+    ul{
+      margin-top: 120px;
+      transform:translateY(-200px);
+      li{
+        text-align: center;
+        a{
+          color: $white;
+          line-height: 40px;
+        }
+      }
+    }
+  }
+  .hamburger-menu.show{
+    opacity: 1;
+    pointer-events: auto;
+    ul{
+      transform:none;
+      transition:all 1s;
+    }
+  }
+}
+#header.scrolled{
+  transform:translateY(-60px);
+  transition:transform .5s;
+  @include sp{
+    transform:none;
+  }
+}
+
+// -----------------
+// メインビジュアル
+//------------------
+.mainvisual{
+  // padding-top: 60px;
+  display: block;
+  height: 600px;
+  position: relative;
+  @include sp{
+    height: 400px;
+  }
+  ul{
+    li{
+      img{
+        position: absolute;
+        opacity: 0;
+        transition:opacity 4s;
+        object-fit: cover;
+        object-position: center;
+        height: 600px;
+        @include sp{
+          height: 400px;
+        }
+      }
+      img.current{
+        opacity: 1;
+      }
+    }
+  }
+  .text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 200px;
+    width: 50%;
+    transform:translate(-50%,-50%);
+    z-index:10;
+    background:rgba(30,30,30,.3);
+    @include sp{
+      width: 80%;
+    }
+    h1{
+      color: $white;
+      text-align: center;
+    }
+    p{
+      color: $white;
+      text-align: center;
+    }
+  }
+}
+//-----------------------
+// ビジュアル(固定ページ)
+//-----------------------
+.visual{
+  margin-top: 150px;
+  background-image:url(../img/visual1.jpg) ;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+  @include sp{
+    margin-top: 60px;
+    height: 300px;
+  }
+  h1{
+    // outline: 1px solid blue;
+    text-align: center;
+    line-height: 400px;
+    font-weight: bold;
+    font-size: 4rem;
+    color:$gray;
+    margin: 0;
+    text-shadow:3px 3px 6px $white;
+    @include sp{
+      font-size: 3rem;
+      line-height: 300px;
+    }
+  }
+}
+
+//-------------------------
+// メインコンテンツ(ホーム)
+//--------------------------
+main{
+  #home{
+    .feature{
+      // outline: 2px solid blue;
+      margin-top: 60px;
+      margin-bottom: 40px;
+      .items{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        padding-bottom: 50px;
+        @include sp{
+          justify-content: center;
+        }
+        .item{
+          width: 29%;
+          box-shadow:2px 2px 4px $gray;
+          min-height:200px;
+          padding: 10px;
+          margin-bottom: 40px;
+          @include sp{
+            width: 85%;
+          }
+          .title{
+            text-align: center;
+            padding-bottom: 20px;
+          }
+        }
+      }
+    }
+    .lesson-list{
+      .items{
+        display: flex;
+        flex-wrap: wrap;
+        @include sp{
+          justify-content: center;
+        }
+        .item{
+          display: block;
+          width: 30%;
+          box-shadow:3px 3px 6px $gray;
+          margin-left: calc(10% / 6);
+          margin-right: calc(10% / 6);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          position: relative;
+          margin-bottom: 40px;
+          @include sp{
+            width: 85%;
+          }
+          &::before{
+            content:'';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
+            opacity: 0.05;
+          }
+          &:hover{
+            box-shadow:3px 2px 12px $gray;
+            transition:all .5s;
+          }
+          img{
+            object-fit: cover;
+            object-position: center;
+          }
+          h3{
+            text-align: center;
+            color: $white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform:translate(-50%,-50%);
+          }
+        }
+      }
+
+    }
+    .voice{
+      overflow:hidden;
+      .items{
+        li{
+          display: flex;
+          align-items: center;
+          margin-bottom: 50px;
+          .face{
+            max-width: 100px;
+            min-width:80px;
+            width: 20%;
+            img{
+              background: $pink;
+              border-radius: 50%;
+            }
+          }
+          .text{
+            width: 75%;
+            padding: 10px;
+            margin-left: 40px;
+            background: $pink;
+            border-radius: 10px;
+            @include sp{
+              margin-left: 30px;
+            }
+            .age{
+              text-align: right;
+            }
+          }
+        }
+        li:nth-of-type(odd){
+          .text{
+            position: relative;
+            &::before{
+              content:'';
+              position: absolute;
+              top: 50%;
+              left: -20px;
+              border-right:20px solid $pink;
+              border-top: 10px solid transparent;
+              border-bottom: 10px solid transparent;
+            }
+          }
+        }
+        li:nth-of-type(even){
+          flex-direction: row-reverse;
+          .text{
+            margin-left: 0;
+            margin-right: 40px;
+            position: relative;
+            @include sp{
+              margin-right: 30px;
+            }
+            &::before{
+              content:'';
+              position: absolute;
+              top: 50%;
+              right:-20px;
+              border-left:20px solid $pink;
+              border-top: 10px solid transparent;
+              border-bottom: 10px solid transparent;
+            }
+          }
+        }
+      }
+    }
+  }  
+  //------------------------
+  // レッスン・料金
+  //------------------------
+  #lesson{
+    padding: 80px 40px;
+    ;
+    // 共通
+    .course{
+      // outline: 2px solid blue;
+      margin-bottom: 100px;
+      overflow: hidden;
+      .content-top{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        // padding-top: 50px;
+        margin-bottom: 50px;
+        .image{
+          width: 40%;
+          display: flex;
+          align-items: center;
+          @include sp{
+            width: 100%;
+          }
+        }
+        .text{
+          width: 55%;
+          @include sp{
+            width: 100%;
+          }
+        }
+      }
+      .content-bottom{
+        width: 75%;
+        margin: 0 auto;
+        @include sp{
+          width: 100%;
+        }
+        .date{
+          font-size: 1.25rem;
+          font-weight: bold;
+          text-align: center;
+          letter-spacing: 5px;
+          line-height: 2;
+          margin-bottom: 50px;
+        }
+        .price{
+          padding: 10px;
+          margin-bottom: 40px;
+          border:1px solid $gray;
+          border-radius: 10px;
+          .price-title{
+            font-size: 1.25rem;
+            text-align: center;
+            letter-spacing: 20px;
+          }
+          .price-content{
+            letter-spacing: 5px;
+            text-align: center;
+            line-height: 2;
+          }
+        }
+      }
+    }
+    .course:nth-of-type(even){
+      .content-top{
+        flex-direction: row-reverse;
+      }
+    }
+    // プライベーヨガ
+    #private-yoga{
+      .content-bottom{
+        .box{
+          border: 1px solid $gray;
+          border-radius: 10px;
+          padding: 10px;
+          margin-bottom: 50px;
+          .title{
+            font-size: 1.25rem;
+            text-align: center;
+            padding-bottom: 20px;
+          }
+          ul{
+            li{
+              list-style-type: disc;
+              padding-left: 20px;
+              line-height: 2rem;
+            }
+          }
+        }
+      }
+    }
+    // セミプライベートヨガ、観音山、オンラインレッスン
+    #semi-private,#group-yoga,#online-lesson{
+      .content-top{
+        .text{
+          dl{
+            dt{
+              font-size: 1.125rem;
+              padding-bottom: 10px;
+            }
+            dd{
+              padding-bottom: 20px;
+              // outline: 1px solid green;
+              p{
+                padding: 10px 0;
+              }
+              ul{
+                li{
+                  list-style-type: disc;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    // インナーチャイルドカード
+    #inner-child{
+      .content-bottom{
+        .inner-title{
+          font-size: 1.25rem;
+          padding-bottom: 20px;
+        }
+        .box{
+          border:1px solid $gray;
+          border-radius: 10px;
+          margin-top: 50px;
+          margin-bottom: 50px;
+          padding: 10px;
+          .title{
+            text-align: center;
+            font-size: 1.125rem;
+          }
+          ul{
+            li{
+              line-height: 2;
+              list-style-type: disc;
+              padding-left: 20px;
+            }
+          }
+        }
+        .price{
+          margin-top: 50px;
+        }
+      }
+    }
+    // 料金表
+    .price-table{
+      // outline: 2px solid blue;
+      padding-bottom: 100px;
+    }
+  }
+  //---------------------
+  //スタジオ
+  //---------------------
+  #studio{
+    .studio-content{
+      // outline: 2px solid blue;
+      margin-bottom: 50px;
+      h2{
+        text-align: center;
+      }
+      .studio-detail{
+        display: flex;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        // outline: 2px solid green;
+        @include sp{
+          flex-direction: column;
+        }
+        .studio-img{
+          width: 40%;
+          
+          // outline: 2px solid yellow;
+          @include sp{
+            width: 100%;
+          }
+        }
+        .text{
+          padding-left: 40px;
+          dd{
+            padding-bottom: 10px;
+          }
+        }
+      }
+      .map{
+        display: flex;
+        justify-content: center;
+        // outline: 2px solid yellow;
+      }
+    }
+  }
+  //---------------------
+  //初めての方へ
+  //---------------------
+  .beginner{
+    // outline: 2px solid blue;
+    .merits{
+      padding: 50px 0;
+      .item{
+        margin-bottom: 60px;
+        .text-en{
+          // outline: 2px solid blue;
+          font-size: 1.5rem;
+          margin: 0 auto 60px;
+          transform:translateX(-2.75em);
+          span{
+            display: inline-block;
+            position: relative;
+            // outline: 1px solid green;
+          }
+          .tr0{
+            transform:rotate(310deg);
+            top: 1.07em;
+            left: 0.72em;
+          }
+          .tr1{
+            transform:rotate(330deg);
+            top: 0.402em;
+            left: 1.5em;
+          }
+          .tr2{
+            transform:rotate(350deg);
+            top: 0.105em;
+            left: 2.48em;
+          }
+          .tr3{
+            transform:rotate(10deg);
+            top: 0.105em;
+            left: 3.52em;
+          }
+          .tr4{
+            transform:rotate(30deg);
+            top: 0.402em;
+            left: 4.5em;
+          }
+          .tr5{
+            transform:rotate(50deg);
+            top: 1.07em;
+            left: 5.28em;
+          }
+          .number{
+            top: 3rem;
+            left: 0;
+            font-size: 2rem;
+            font-weight: bold;
+          }
+        }
+        .title{
+          display: flex;
+          justify-content: center;
+          h3{
+            display: inline-block;
+            margin-bottom: 50px;
+            position: relative;
+            &::after{
+              content:'';
+              position: absolute;
+              bottom: -20px;
+              left: 50%;
+              height: 4px;
+              width: 0;
+              transform:translateX(-50%);
+              transition:all 1s;
+              background: $pink;
+            }
+          }
+          h3.appear{
+            &::after{
+              content:'';
+              width: 100%;
+            }
+          }
+        }
+        p{
+          text-align: center;
+          line-height: 3;
+        }
+      }
+    }
+    .reserve{
+      padding-bottom: 80px;
+      .top{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 80px;
+        padding-top: 40px;
+        @include sp{
+          flex-direction: column;
+          align-items: center;
+        }
+        .item{
+          width: 27%;
+          margin-right: 30px;
+          @include sp{
+            margin-right: 0;
+            margin-bottom: 30px;
+            width: 100%;
+          }
+          p{
+            border:1px solid $gray;
+            border-radius:50%;
+            padding-top: calc(50% - 24px);
+            padding-bottom: calc(50% - 24px);
+            text-align: center;  
+            height: 48px;
+            @include sp{
+              border-radius: 10px;
+              padding: 10px 40px;
+              height: auto;
+            }
+          }
+        }
+        .arrow{
+          align-self: center;
+          width: 40px;
+          height: 40px;
+          background: $pink;
+          position: relative;
+          margin-right: 50px;
+          @include sp{
+            margin-right: 0;
+            margin-bottom: 50px;
+          }
+          &::after{
+            content:'';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            border-left:20px solid $pink;
+            border-top:40px solid transparent;
+            border-bottom:40px solid transparent;
+            @include sp{
+              display: none;
+            }
+          }
+          &::before{
+            content:'';
+            display: none;
+            @include sp{
+              position: absolute;
+              display: block;
+              top:40px;
+              right:-20px;
+              border-top:20px solid $pink;
+              border-right:40px solid transparent;
+              border-left:40px solid transparent;
+            }
+          }
+        }
+      }
+      .center{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 50px;
+        @include sp{
+          flex-direction: column;
+        }
+        .prepare{
+          width: 45%;
+          border: 1px solid $gray;
+          border-radius: 10px;
+          padding: 10px;
+          @include sp{
+            margin-bottom: 50px;
+            width: calc(100% - 20px);
+          }
+          h3{
+            padding-bottom: 20px;
+            @include sp{
+              text-align: center;
+            }
+          }
+          ul{
+            li{
+              line-height: 2;
+              padding-left: 20px;
+            }
+          }
+        }
+        .pay{
+          width: 45%;
+          border: 1px solid $gray;
+          border-radius: 10px;
+          padding: 10px;
+          @include sp{
+            margin-bottom: 50px;
+            width: calc(100% - 20px);
+          }
+          h3{
+            padding-bottom: 20px;
+            @include sp{
+              text-align: center;
+            }
+          }
+          dt,dd{
+            line-height: 2;
+            padding-left: 20px;
+          }
+
+        }
+      }
+    }
+  }
+  .about{
+    padding: 80px 40px;
+    position: relative;
+    p{
+      line-height: 2;
+      text-align: center;
+    }
+    .career{
+      width: 80%;
+      margin: 50px auto;
+      padding: 30px;
+      border:1px solid $gray;
+      background: white;
+      border-radius: 5px;
+      @include sp{
+        padding: 10px;
+        width: 100%;
+      }
+      .skill{
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        ul{
+          width: 85%;
+          @include sp{
+            width: 70%;
+          }
+          li{
+            line-height: 2.5;
+            list-style-type: disc;
+            padding-left: 20px;
+          }
+        }
+        .image{
+          // outline: 1px solid blue;
+          width: 10%;
+          display: flex;
+          align-items: end;
+          @include sp{
+            width: 25%;
+          }
+          img{ 
+            min-width: 80px;
+            min-height: 160px;
+          }
+        }
+      }
+    }
+    .bg{
+      background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,1)),url(../img/about-bg.jpg);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index:-10;
+      opacity: 0.5;
+    }
+  }
+  //------------------------
+  // レッスン参加にあたって
+  //-----------------------
+  #join{
+    // 共通
+    h2{
+      margin-top: 50px;
+    }
+    ul{
+      padding-top: 20px;
+      li{
+        padding-bottom: 50px;
+        text-align: center;
+      }
+    }
+    .content{
+      position: relative;
+      .slide-image{
+        position: absolute;
+        width: 300px;
+        opacity: 0.3;
+      }
+    }
+    // レッスン参加にあたって
+    .lesson{
+      // outline: 2px solid blue;
+      .slide-image{ 
+        bottom: 0;
+        right: 0;
+      }
+    }
+    // オンラインレッスン参加にあたって
+    .online{
+      ul{
+        border:1px solid $gray;
+        padding-top: 50px;
+        padding-left: 50px;
+        @include sp{
+          padding-left: 20px;
+        }
+        p{
+          padding-bottom: 50px;
+          text-align: center;
+        }
+        li{
+          list-style-type: disc;
+          text-align: left;
+        }
+      }
+      .slide-image{
+        top: 200px;
+        left: 0;
+      }
+    }
+    // ご予約、キャンセルポリシー
+    .policy{
+      .slide-image{
+        top: 0;
+        right: 0;
+      }
+    }
+    // プライバシーポリシー
+    dl{
+      padding-top: 20px;
+      padding-bottom: 80px;
+      dt{
+        font-size: 1.25rem;
+        padding-bottom: 20px;
+      }
+      dd{
+        padding-bottom: 40px;
+        line-height: 2;
+      }
+    }
+    .slide-image{
+      right: 0;
+      top: 0;
+    }
+  }
+  //---------------------
+  // ご予約・お問い合わせ
+  //---------------------
+  #contact{
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    // outline: 2px solid red;
+    .form{
+      width: 100%;
+      max-width: 600px;
+      // outline: 2px solid blue;
+      form{
+        .smf-form{
+          .smf-item{
+            span{
+              font-size: 1.25rem;
+              line-height: 3;
+            }
+            input{
+              min-width:300px;
+            }
+          }
+        }
+        // 送信ボタン
+        .smf-action{
+          span{
+            display: flex;
+            justify-content: center;
+            button{
+              margin-top: 40px;
+            }
+          }
+        }
+      }
+    }
+  }  
+  // -------------------
+  // 投稿
+  //--------------------
+  #post{
+    .posts{
+      padding: 100px;
+    }
+  }
+}   
+//---------------------
+// to-topボタン
+//---------------------
+#to-top{
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+  background: $gray;
+  opacity: 0;
+  transition: opacity .5s;
+  cursor: pointer;
+  span{
+    position: absolute;
+    top: 22px;
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: $white;
+  }
+  span:first-of-type{
+    left: 8px;
+    transform:rotate(-45deg);
+  }
+  span:last-of-type{
+    right: 8px;
+    transform:rotate(45deg);
+  }
+}
+#to-top.scrolled{
+  opacity: 1;
+}
+//---------------------
+//  フッター
+//---------------------
+#footer{
+  background: $pink;
+  .wrapper{
+    padding-top: 40px;
+    padding-bottom: 40px;
+    .top{
+      margin-bottom: 50px;
+      // outline: 2px solid blue;
+      ul{
+        // outline: 2px solid yellow;
+        width: 300px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        li{
+          width: 60px;
+          img{
+            &:hover{
+              transform:scale(1.25);
+              transition:transform .5s;
+            }
+          }
+          i{
+            display: block;
+            font-size: 60px;
+            line-height: 1;
+            &:hover{
+              transform:scale(1.25);
+              transition:transform .5s;
+            }
+          }
+        }
+      }
+    }
+    .center{
+      display: flex;
+      justify-content: center;
+      @include sp{
+        flex-direction: column;
+      }
+      .left{
+        margin-right: 100px;
+        @include sp{
+          margin-bottom: 40px;
+        }
+        img{
+          margin-top: 20px;
+          margin-bottom: 20px;
+          width: 80px;
+        }
+      }
+      .right{     
+        img{
+          width: 100px;
+        }
+      }
+    }
+  }
+  .copy{
+    text-align: center;
+    background: $white;
+  }
+}
+
+.detail-btn{
+  margin-top: 40px;
+  color:red;
+}
